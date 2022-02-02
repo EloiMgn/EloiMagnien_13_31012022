@@ -27,11 +27,11 @@ function reducer(state = initialState, action) {
 
   if (action.type === "login") {
 
-    if (state.userConnected === true) {
-      // On ne peut pas se connecté si on est déjà connecté
-      return state;
+    // On ne peut pas se connecter si on est déjà connecté
+    if (state.userConnected === false) {
+      return { ...state, userConnected: true, token: `${action.token}` };
     } else {
-      return { ...state, userConnected: true };
+      return state
     }
   }
   return state;

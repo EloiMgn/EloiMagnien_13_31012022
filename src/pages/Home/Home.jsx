@@ -2,13 +2,8 @@ import Nav from '../../components/Nav/Nav';
 import Banner from '../../components/Banner/Banner';
 import Features from '../../components/Features/Features';
 import Footer from '../../components/Footer/Footer';
-import { useSelector } from 'react-redux';
-
-
 
 const Home = () => {
-
-  
 const linksContent= [
   {
     text: "Sign In",

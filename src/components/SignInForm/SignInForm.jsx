@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
-import { useSelector } from "react-redux";
-// import { store } from "../../store";
+import { useNavigate } from 'react-router'
+
+
 
 const SignInForm = () => {
   const [inputEmail, setInputEmail] = useState('')
@@ -9,17 +10,14 @@ const SignInForm = () => {
   const [rememberMe, setRememberMe] = useState(false)
 
   const dispatch = useDispatch();
-  // const isConnected1 = useSelector((state) => state.userConnected)
+  const navigate= useNavigate()
 
   const inputValue = {
       "email": inputEmail,
       "password": inputPassword
     }
   
-
 const fetchData = async (e) => {
-  // console.log(inputValue);
-  // console.log(isConnected1);
   e.preventDefault()
   const response = await fetch('http://localhost:3001/api/v1/user/login', {
       method: 'POST',
@@ -34,8 +32,9 @@ const fetchData = async (e) => {
       response.json()
       .then(response => {
         if (response.status === 200) {
-          dispatch({ type: "login" })
-      } 
+          dispatch({ type: "login", token: response.body.token })
+          navigate('/user', { replace: true })
+        } 
       else {
         console.log('pas connecté')
       }
@@ -43,9 +42,6 @@ const fetchData = async (e) => {
       .catch(error => console.error(error))
   } 
 }
-
-const isUserConnected = useSelector((state) => state.userConnected)
-console.log(isUserConnected);
 
   return (
     <form>
