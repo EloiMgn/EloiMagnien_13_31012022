@@ -8,7 +8,7 @@ const linksContent= [
   {
     text: "Sign In",
     icon:"fa fa-user-circle",
-    link:"/sign-in"
+    link:"/login"
   }
 ]
 

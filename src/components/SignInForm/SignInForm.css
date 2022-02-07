@@ -1,0 +1,17 @@
+.emailError input{
+  border: solid rgb(200, 0, 0) 2px;
+  border-radius: 3px;
+}
+
+.input-wrapper input:focus-visible{
+  outline: none;
+}
+
+.invalidMail{
+  margin-top: 10px;
+  color: rgb(200, 0, 0);
+  font-weight: 700;
+  /* font: inherit; */
+  vertical-align: baseline;
+  font-size: 80%;
+}

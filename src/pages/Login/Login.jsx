@@ -2,17 +2,17 @@ import Nav from '../../components/Nav/Nav';
 import SignInForm from '../../components/SignInForm/SignInForm';
 import Footer from '../../components/Footer/Footer';
 
-const SignIn = () => {
+const Login = () => {
 
   const linksContent= [
     {
       text: "Sign In",
       icon:"fa fa-user-circle",
-      link:"/sign-in"
+      link:"/login"
     }
   ]
   return (
-    <div className="signIn">
+    <div className="login">
       <Nav links={linksContent}/>
       <main className='main bg-dark'>
       <section className="sign-in-content">
@@ -26,4 +26,4 @@ const SignIn = () => {
   );
 }
 
-export default SignIn;
+export default Login;

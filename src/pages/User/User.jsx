@@ -44,7 +44,7 @@ const [user, setUser] = useState('')
     {
       text: "Sign Out",
       icon:"fa fa-sign-out",
-      link:"/sign-in"
+      link:"/login"
     }
   ]
 
