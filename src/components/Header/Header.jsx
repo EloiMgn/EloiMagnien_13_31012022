@@ -1,16 +1,30 @@
 import './Header.css'
 import { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
 
 const Header = ({name}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [inputFirst, setInputFirst] = useState('')
   const [inputLast, setInputLast] = useState('')
+  const [firstName, setFirstName] = useState(name)
+
 
     const toggleEdit = (e) => {
       e.preventDefault()
       setIsEditing(!isEditing)
+    }
+
+    const handleChangeFirstname = (value) => {
+      setInputFirst(value)
+    }
+
+    const handleChangeLastname = (value) => {
+      setInputLast(value)
+    }
+
+    const handleClickSave = (e) => {
+      toggleEdit(e)
+      fetchData(e)
     }
 
     const inputValue = {
@@ -21,11 +35,11 @@ const Header = ({name}) => {
     const token = useSelector((state) => state.token)
 
     const dispatch = useDispatch();
-    const navigate= useNavigate();
+
+// Handle name Editing 
 
     const fetchData = async (e) => {
       e.preventDefault()
-      console.log(token);
        const response = await fetch('http://localhost:3001/api/v1/user/profile', {
            method: 'PUT',
            headers: {
@@ -40,11 +54,11 @@ const Header = ({name}) => {
            response.json()
            .then(response => {
              if (response.status === 200) {
-               dispatch({ type: "login", token: response.body.token })
-               navigate('/user', { replace: true })
+               dispatch({ type: "setUsername", firstName: response.body.firstName, lastName: response.body.lastName })
+               setFirstName(inputFirst)
              } 
            else {
-             console.log('pas connecté')
+            console.error('error')
            }
            })
            .catch(error => console.error(error))
@@ -53,21 +67,21 @@ const Header = ({name}) => {
 
   return (
     <div className="header">
-    <h1>Welcome back<br /> <strong className={isEditing ? "hidden" : "userName"}>{name}</strong></h1>
+    <h1>Welcome back<br /> <strong className={isEditing ? "hidden" : "userName"}>{firstName}</strong></h1>
     <button className={isEditing ? "edit-button hidden" : "edit-button"} onClick={toggleEdit}>Edit Name</button>
     <form className={isEditing ? "editName" : "editName hidden"}>
       <div className='editName__inputs '>
         <div className="input-wrapper editName__input">
           <label htmlFor="firstname"></label>
-          <input placeholder='Tony' type="text" id="firstname" />
+          <input placeholder='Prénom' type="text" id="firstname" onChange={e => handleChangeFirstname(e.target.value)}/>
         </div>
         <div className="input-wrapper editName__input">
           <label htmlFor="lastname"></label>
-          <input placeholder='Jarvis' type="text" id="lastname" />
+          <input placeholder='Nom' type="text" id="lastname" onChange={e => handleChangeLastname(e.target.value)}/>
         </div>
       </div>
       <div className='editName__buttons'>
-        <button className="editName__btn edit-button save" onClick={fetchData}>Save</button>
+        <button className="editName__btn edit-button save" onClick={e => handleClickSave(e)}>Save</button>
         <button className="editName__btn edit-button cancel" onClick={toggleEdit}>Cancel</button> 
       </div>
     </form>

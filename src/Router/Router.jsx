@@ -9,7 +9,7 @@ import User from '../pages/User/User';
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/user" element={<User />} />
+        <Route path="/profile" element={<User />} />
         <Route path="/*" element={<Error />} />
       </Routes>
   </Router>

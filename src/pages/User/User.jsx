@@ -8,7 +8,7 @@ import Error from '../Error/Error';
 
 const User = () => {
 const token = useSelector((state) => state.token)
-// const [data, setData] = useState(null)
+const [succeed, setSucceed] = useState(false)
 const [user, setUser] = useState('')
 
   const fetchData = async () => {
@@ -25,8 +25,8 @@ const [user, setUser] = useState('')
         response.json()
         .then(response => {
           if (response.status === 200) {
-          //  setData(response.body)
-           setUser(response.body.firstName)
+          setUser(response.body.firstName)
+          setSucceed(true)
           } 
         else {
           console.log('pas connecté')
@@ -38,13 +38,14 @@ const [user, setUser] = useState('')
 
   useEffect(() => {
     fetchData()
+
   }, []);
 
   const linksContent= [
     {
       text: "Sign Out",
       icon:"fa fa-sign-out",
-      link:"/login"
+      link:"/"
     }
   ]
 
@@ -65,7 +66,7 @@ const [user, setUser] = useState('')
       description:"Current Balance",
     }
   ]
-  if(user){
+  if(succeed === true){
     return (
       <div className="user">
         <Nav links={linksContent}/>

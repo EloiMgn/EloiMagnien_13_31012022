@@ -1,24 +1,13 @@
 import { createStore } from "redux";
-
-
-// state
-// const initialState = {
-//   player1: 0,
-//   player2: 0,
-//   advantage: null,
-//   winner: null,
-//   playing: true,
-// };
+import produce from 'immer';
 
 const initialState = {
   userConnected: false,
   userFirstname: '',
   userLastname: '',
   token: '',
+  remerberUser: false
 };
-
-// actions creators
-
 
 function reducer(state = initialState, action) {
   if (action.type === "logout") {
@@ -26,13 +15,22 @@ function reducer(state = initialState, action) {
   }
 
   if (action.type === "login") {
-
     // On ne peut pas se connecter si on est déjà connecté
     if (state.userConnected === false) {
-      return { ...state, userConnected: true, token: `${action.token}` };
+      return { ...state, 
+        userConnected: true, 
+        remerberUser: action.rememberUser,
+        token: `${action.token}` };
     } else {
       return state
     }
+  }
+
+  if (action.type === "setUsername") {
+    return produce (state, (draft) => {
+      draft.userFirstname = action.firstName
+      draft.userLastname = action.lastName
+    })
   }
   return state;
 }

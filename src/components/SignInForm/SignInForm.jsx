@@ -10,6 +10,7 @@ const SignInForm = () => {
   const [inputEmail, setInputEmail] = useState('')
   const [inputPassword, setInputPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
+  const [inputError, setInputError] = useState(false)
 
   const changeEmail = (value) => {
     setInputEmail(value)
@@ -39,21 +40,21 @@ const fetchData = async (e) => {
        response.json()
        .then(response => {
          if (response.status === 200) {
-           dispatch({ type: "login", token: response.body.token })
-           navigate('/user', { replace: true })
+          setInputError(false)
+           dispatch({ type: "login", token: response.body.token, rememberUser: rememberMe})
+           navigate('/profile', { replace: true })
          } 
-       else {
-         console.log('pas connecté')
-       }
        })
        .catch(error => console.error(error))
-   } 
+   } else if (!response.ok) {
+     setInputError(true)
+   }
  }
 }
 
   return (
     <form>
-      <div className={validateEmail(inputEmail) === false && inputEmail.split('').length > 0 ? 'input-wrapper emailError' : 'input-wrapper'}>
+      <div className={validateEmail(inputEmail) === false && inputEmail.split('').length > 0? 'input-wrapper inputError' : 'input-wrapper'}>
         <label htmlFor="username">Username</label>
         <input 
         placeholder='Email' 
@@ -63,10 +64,11 @@ const fetchData = async (e) => {
         />
         <p className={validateEmail(inputEmail) === false && inputEmail.split('').length > 0 ? 'invalidMail' : 'hidden'}>Email invalide, veuillez enter un email valide</p>
       </div>
-      <div className="input-wrapper">
+      <div className={inputError? 'input-wrapper inputError' : 'input-wrapper'}>
         <label htmlFor="password">Password</label>
         <input placeholder="Password" type="password" id="password" onChange={e => setInputPassword(e.target.value)} />
       </div>
+      <p className={inputError? 'errorInput' : 'hidden'}>L'email ou le mot de passe n'est pas valide, veuillez entre un mot de passe et un email valide</p>
       <div className="input-remember">
         <input type="checkbox" id="remember-me" onChange={e => setRememberMe(!rememberMe)}/>
         <label htmlFor="remember-me">Remember me</label>
