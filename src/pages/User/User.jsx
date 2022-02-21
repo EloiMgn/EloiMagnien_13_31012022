@@ -6,40 +6,40 @@ import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import Error from '../Error/Error';
 
-const User = () => {
+const User = ({datas}) => {
 const token = useSelector((state) => state.token)
 const [succeed, setSucceed] = useState(false)
 const [user, setUser] = useState('')
 
-  const fetchData = async () => {
-    const response = await fetch('http://localhost:3001/api/v1/user/profile', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-            'X-Requested-Width': 'xmlhttprequest'
-        },
-    })
-    if (response.ok) {            
-        response.json()
-        .then(response => {
-          if (response.status === 200) {
-          setUser(response.body.firstName)
-          setSucceed(true)
-          } 
-        else {
-          console.log('pas connecté')
-        }
-        })
-        .catch(error => console.error(error))
-    } 
-  }
+
 
   useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch('http://localhost:3001/api/v1/user/profile', {
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+              'X-Requested-Width': 'xmlhttprequest'
+          },
+      })
+      if (response.ok) {            
+          response.json()
+          .then(response => {
+            if (response.status === 200) {
+            setUser(response.body.firstName)
+            setSucceed(true)
+            } 
+          else {
+            setSucceed(false)
+          }
+          })
+          .catch(error => console.error(error))
+      } 
+    }
     fetchData()
-
-  }, []);
+  }, [token]);
 
   const linksContent= [
     {
@@ -49,24 +49,7 @@ const [user, setUser] = useState('')
     }
   ]
 
-  const datas=[
-    {
-      title:"Argent Bank Checking (x8349)",
-      amount:"$2,082.79",
-      description:"Available Balance",
-    },
-    {
-      title:"Argent Bank Savings (x6712)",
-      amount:"$10,928.42",
-      description:"Available Balance",
-    },
-    {
-      title:"Argent Bank Credit Card (x8349)",
-      amount:"$184.30",
-      description:"Current Balance",
-    }
-  ]
-  if(succeed === true){
+  if(succeed){
     return (
       <div className="user">
         <Nav links={linksContent}/>

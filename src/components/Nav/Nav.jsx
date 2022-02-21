@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import logo from '../../utils/assets/img/argentBankLogo.png'
 
 const Nav = ({links}) => {
@@ -14,10 +15,10 @@ const Nav = ({links}) => {
       </a>
       <div>
         {links.map((link, idx) => (
-          <a className="main-nav-item" href={link.link} key={idx}>
+          <Link className="main-nav-item" to={link.link} key={idx}>
             <i className={link.icon}></i>
           {link.text}
-        </a>
+          </Link>
         ))}
         
       </div>

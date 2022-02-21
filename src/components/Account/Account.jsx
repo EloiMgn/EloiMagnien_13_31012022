@@ -1,5 +1,11 @@
+import { useNavigate } from 'react-router';
 
 const Account = ({datas}) => {
+  const navigate = useNavigate()
+
+  const handleClick = (datas) => {
+    navigate(`/${datas.id}`, { replace: true })
+  }
 
   return (
     <section className="account">
@@ -9,7 +15,7 @@ const Account = ({datas}) => {
         <p className="account-amount-description">{datas.description}</p>
       </div>
       <div className="account-content-wrapper cta">
-        <button className="transaction-button">View transactions</button>
+        <button className="transaction-button" onClick={e => handleClick(datas)}>View transactions</button>
       </div>
   </section>
   );
