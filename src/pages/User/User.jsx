@@ -9,6 +9,7 @@ import Error from '../Error/Error';
 const User = ({datas}) => {
 const token = useSelector((state) => state.token)
 const [succeed, setSucceed] = useState(false)
+const [response, setResponse]= useState(0)
 const [user, setUser] = useState('')
 
 
@@ -30,9 +31,11 @@ const [user, setUser] = useState('')
             if (response.status === 200) {
             setUser(response.body.firstName)
             setSucceed(true)
+            setResponse(0)
             } 
           else {
             setSucceed(false)
+            setResponse(1)
           }
           })
           .catch(error => console.error(error))
@@ -63,9 +66,11 @@ const [user, setUser] = useState('')
         <Footer/>
       </div>
     );
-  } return (
-      <Error/>
-    );
+  } else if (!succeed && response === 0) {
+    return <Error code='403'/>
+  } else if (!succeed && response !== 0) {
+    return <Error code= '404'/>
+  }
 }
 
 export default User;
